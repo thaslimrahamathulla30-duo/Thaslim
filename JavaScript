@@ -1,0 +1,37 @@
+const display = document.getElementById('display');
+
+function appendNumber(num) {
+  display.value += num;
+}
+
+function appendOperator(operator) {
+  if (display.value === '') return;
+  const lastChar = display.value[display.value.length - 1];
+  if ('+-*/'.includes(lastChar)) {
+    display.value = display.value.slice(0, -1) + operator;
+  } else {
+    display.value += operator;
+  }
+}
+
+function appendDot() {
+  const parts = display.value.split(/[\+\-\*\/]/);
+  if (!parts[parts.length - 1].includes('.')) {
+    display.value += '.';
+  }
+}
+
+function clearDisplay() {
+  display.value = '';
+}
+
+function calculate() {
+  try {
+    // Only evaluate if the last character is not an operator
+    const lastChar = display.value[display.value.length - 1];
+    if ('+-*/'.includes(lastChar)) return;
+    display.value = eval(display.value);
+  } catch (e) {
+    display.value = 'Error';
+  }
+}
